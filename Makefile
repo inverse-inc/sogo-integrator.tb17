@@ -1,10 +1,16 @@
 PACKAGE = sogo-integrator
+GIT_REV = $(shell git rev-parse --verify HEAD | cut -c1-10)
+
+ifeq ($(shell uname),Darwin)
+VERSION = $(shell grep em:version install.rdf | sed -E 's@(em:version=|"| )@@g')
+else
 VERSION = $(shell grep em:version install.rdf | sed -e 's@\(em:version=\|\"\|\ \)@@g')
+endif
 
 ifeq ($(build),)
-XPI_ARCHIVE = $(PACKAGE)-$(VERSION).xpi
+XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV).xpi
 else
-XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(build).xpi
+XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV)-$(build).xpi
 endif
 
 SHELL = /bin/bash

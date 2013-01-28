@@ -1,3 +1,7 @@
+17.0.4 (YYYY-MM-DD)
+------
+- updated Czech translation
+
 0.92
 ----
 - added the ability to force user preferences by adding a file named "chrome/content/sogo-integrator/content/general/custom-preferences.js"

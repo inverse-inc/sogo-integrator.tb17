@@ -70,10 +70,10 @@ function openDeletePersonalDirectoryForbiddenDialog() {
 
 function openCalendarUnsubscriptionDialog() {
     let calendar = getSelectedCalendar();
-    promptDeleteCalendar(calendar); 
+    SIpromptDeleteCalendar(calendar); 
 }
 
-function promptDeleteCalendar(calendar) {
+function SIpromptDeleteCalendar(calendar) {
     let url = calendar.uri.spec;
     let baseURL = sogoBaseURL();
     if (url.indexOf(baseURL) == 0) {
@@ -189,6 +189,14 @@ window.addEventListener("load", SIOnCalendarOverlayLoad, false);
 function SIOnCalendarOverlayLoad() {
     let widget = document.getElementById("calendar-list-tree-widget");
     widget.addEventListener("mousedown", SIOnListMouseDown, true);
+
+    /* override lightning's calendar delete function 
+     * has to be done when the overlay's load handler since
+     * window.promptDeleteCalendar can somehow be overriden by lightning
+     * if lightning is loaded after the integrator in extensions.ini
+     */
+    window.SIOldPromptDeleteCalendar = window.promptDeleteCalendar;
+    window.promptDeleteCalendar = window.SIpromptDeleteCalendar;
 }
 
 function SIOnListMouseDown(event) {

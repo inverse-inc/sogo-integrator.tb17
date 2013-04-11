@@ -7,10 +7,12 @@ else
 VERSION = $(shell grep em:version install.rdf | sed -e 's@\(em:version=\|\"\|\ \)@@g')
 endif
 
-ifeq ($(build),)
-XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV).xpi
-else
-XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV)-$(build).xpi
+ifndef XPI_ARCHIVE
+  ifeq ($(build),)
+  XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV).xpi
+  else
+  XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV)-$(build).xpi
+  endif
 endif
 
 SHELL = /bin/bash

@@ -1,26 +1,21 @@
 PACKAGE = sogo-integrator
 GIT_REV = $(shell git rev-parse --verify HEAD | cut -c1-10)
 
-ifeq ($(shell uname),Darwin)
-VERSION = $(shell grep em:version install.rdf | sed -E 's@(em:version=|"| )@@g')
-else
-VERSION = $(shell grep em:version install.rdf | sed -e 's@\(em:version=\|\"\|\ \)@@g')
-endif
+VERSION = $(shell awk -F'"' '/em:version="/ {print $$2}' <install.rdf)
+FIND_FILTER = ! -path './custom' -type f
 
 ifndef XPI_ARCHIVE
   ifeq ($(build),)
-  XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV).xpi
+    XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV).xpi
   else
-  XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV)-$(build).xpi
+    XPI_ARCHIVE = $(PACKAGE)-$(VERSION)-$(GIT_REV)-$(build).xpi
   endif
 endif
 
 SHELL = /bin/bash
 ZIP = /usr/bin/zip
 
-FILENAMES = $(shell cat MANIFEST)
-
-all: custom-build MANIFEST-pre MANIFEST rest
+all: custom-build MANIFEST rest
 
 custom-build:
 	@if test "x$$build" == "x"; then \
@@ -32,34 +27,27 @@ custom-build:
 	    exit 1; \
 	  fi; fi
 
-MANIFEST: MANIFEST-pre
-	@if ! cmp MANIFEST MANIFEST-pre >& /dev/null; then \
-	  cat MANIFEST-pre | egrep -v '^custom/' | egrep -v '^./custom' > MANIFEST; \
-	  echo MANIFEST updated; \
-	else \
-	  rm -f MANIFEST-pre; \
-	fi;
-
-MANIFEST-pre:
+MANIFEST:
 	@echo chrome.manifest > $@
 	@echo NEWS >> $@
 	@echo COPYING >> $@
-	@find -type f -name "*.dtd" >> $@
-	@find -type f -name "*.gif" >> $@
-	@find -type f -name "*.idl" >> $@
-	@find -type f -name "*.js" >> $@
-	@find -type f -name "*.css" >> $@
-	@find -type f -name "*.jpg" >> $@
-	@find -type f -name "*.png" >> $@
-	@find -type f -name "*.properties" >> $@
-	@find -type f -name "*.rdf" >> $@
-	@find -type f -name "*.xpt" >> $@
-	@find -type f -name "*.xul" >> $@
-	@find -type f -name "*.xml" >> $@
+	@find . $(FIND_FILTER) -name "*.dtd" >> $@
+	@find . $(FIND_FILTER) -name "*.gif" >> $@
+	@find . $(FIND_FILTER) -name "*.idl" >> $@
+	@find . $(FIND_FILTER) -name "*.js" >> $@
+	@find . $(FIND_FILTER) -name "*.css" >> $@
+	@find . $(FIND_FILTER) -name "*.jpg" >> $@
+	@find . $(FIND_FILTER) -name "*.png" >> $@
+	@find . $(FIND_FILTER) -name "*.properties" >> $@
+	@find . $(FIND_FILTER) -name "*.rdf" >> $@
+	@find . $(FIND_FILTER) -name "*.xpt" >> $@
+	@find . $(FIND_FILTER) -name "*.xul" >> $@
+	@find . $(FIND_FILTER) -name "*.xml" >> $@
 
 rest:
 	@make $(XPI_ARCHIVE)
 
+$(XPI_ARCHIVE): FILENAMES = $(shell cat MANIFEST)
 $(XPI_ARCHIVE): $(FILENAMES)
 	@echo Generating $(XPI_ARCHIVE)...
 	@rm -f $(XPI_ARCHIVE)

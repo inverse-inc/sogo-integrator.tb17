@@ -4,8 +4,10 @@
   xmlns:isi="http://inverse.ca/sogo-integrator/"
   xmlns:em="http://www.mozilla.org/2004/em-rdf#"
   xmlns:NC="http://home.netscape.com/NC-rdf#">
+  <!-- Make sure to change the updateURL for your environment --!>
   <Seq about="http://inverse.ca/sogo-integrator/extensions"
-    isi:updateURL="http://wolfomachine.local/plugins/updates.php?plugin=%ITEM_ID%&amp;version=%ITEM_VERSION%&amp;platform=%PLATFORM%">
+    isi:updateURL="http://sogohostname/path/to/updates.php?plugin=%ITEM_ID%&amp;version=%ITEM_VERSION%&amp;platform=%PLATFORM%">
+
 <!--  <li>
       <Description
         em:id="lookout@aron.rubin"
@@ -14,7 +16,7 @@
     <li>
       <Description
         em:id="fr@dictionaries.addons.mozilla.org"
-	em:name="Dictionnaire français"/>
+        em:name="Dictionnaire français"/>
     </li>
     <li>
       <Description
@@ -29,7 +31,7 @@
     <li>
       <Description
         em:id="{e2fda1a4-762b-4020-b5ad-a41df1933103}"
-	em:name="Lightning"/>
+        em:name="Lightning"/>
     </li> -->
   </Seq>
 </RDF>

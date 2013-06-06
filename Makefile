@@ -2,7 +2,7 @@ PACKAGE = sogo-integrator
 GIT_REV = $(shell git rev-parse --verify HEAD | cut -c1-10)
 
 VERSION = $(shell awk -F'"' '/em:version="/ {print $$2}' <install.rdf)
-FIND_FILTER = ! -path './custom' -type f
+FIND_FILTER = ! -path './custom/*' -type f
 
 ifndef XPI_ARCHIVE
   ifeq ($(build),)

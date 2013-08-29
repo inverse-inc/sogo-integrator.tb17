@@ -8,6 +8,7 @@ locale  sogo-integrator cs chrome/locale/cs/
 locale  sogo-integrator de-DE chrome/locale/de-DE/
 locale	sogo-integrator es-ES chrome/locale/es-ES/
 locale  sogo-integrator fr-FR chrome/locale/fr-FR/
+locale  sogo-integrator hu-HU chrome/locale/hu-HU/
 locale	sogo-integrator it-IT chrome/locale/it-IT/
 
 overlay chrome://global/content/commonDialog.xul chrome://sogo-integrator/content/global/common-dialog-overlay.xul
